@@ -6,7 +6,6 @@ import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 import Stack from 'react-bootstrap/Stack';
 import bull from './Stockingtonlogo.png';
-import axios from 'axios';
 // import raw from './nyse.txt';
 import stocks from 'stock-ticker-symbol';
 // import TextField from '@mui/material/TextField';
@@ -47,7 +46,6 @@ function App() {
     }
     console.log(ticker)
     setSpinner(true)
-    axios.post(API_URL, ticker, headers)
     .then(res =>{
       console.log('hi');
       console.log(res.data);
@@ -86,7 +84,11 @@ function App() {
         <h4 className="text-light">Enter 5 words to get a <text className='text-success'>fun story</text> with the help of the <text className='text-success'>secret</text> network</h4>
         <br/>
           <Form.Group className="mb-3" className = "input float-left"  controlId="formStockTicker" >
-            <Form.Control placeholder="NOUN, VERB, ADJECTIVE, EVENT, PLACE" onChange={event => {setTicker(event.target.value.toUpperCase());validateTicker(event.target.value.toUpperCase())}}/>
+            <Form.Control placeholder="NOUN" onChange={event => {setTicker(event.target.value.toUpperCase());validateTicker(event.target.value.toUpperCase())}}/><br/>
+            <Form.Control placeholder="VERB" onChange={event => {setTicker(event.target.value.toUpperCase());validateTicker(event.target.value.toUpperCase())}}/><br/>
+            <Form.Control placeholder="ADJECTIVE" onChange={event => {setTicker(event.target.value.toUpperCase());validateTicker(event.target.value.toUpperCase())}}/><br/>
+            <Form.Control placeholder="EVENT" onChange={event => {setTicker(event.target.value.toUpperCase());validateTicker(event.target.value.toUpperCase())}}/><br/>
+            <Form.Control placeholder="PLACE" onChange={event => {setTicker(event.target.value.toUpperCase());validateTicker(event.target.value.toUpperCase())}}/>
             {!validation ? <Form.Text className='text-danger'>Invalid ticker</Form.Text> : null }
             
           </Form.Group>
@@ -95,19 +97,11 @@ function App() {
             <Button disabled className="mb-3" size="lg" variant="outline-danger" className="mybutton float-right" type="submit" onClick={(event) => {fetchAI(event)} }>
             Submit
           </Button>
-
-          <Button disabled className="mb-3" size="lg" variant="outline-warning" className="mybutton float-right" type="submit">
-            Notify Me For The Next Report
-            </Button> 
+          
           </div>:
           <div className='notify'><Button className="mb-3" size="lg" variant="outline-success" className="mybutton float-right" type="submit" onClick={(event) => {fetchAI(event)} }>
               Submit
               </Button>
-              {notify ? <Button className="mb-3" size="lg" variant="outline-warning" className="mybutton float-right" type="submit" onClick={(event) => setNotify(false)}>
-              Submit Number
-              </Button> : <Button className="mb-3" size="lg" variant="outline-warning" className="mybutton float-right" type="submit" onClick={(event) => setNotify(true)}>
-                Notify Me For The Next Report
-              </Button> }
 
           </div>}
           <br></br>
