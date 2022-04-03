@@ -1,11 +1,11 @@
 .App {
   text-align: center;
 }
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
+
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -28,11 +28,21 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+Button {
+  margin:10px;
 }
+
+@keyframes example {
+  from {color: rgba(212, 212, 212, 0)}
+  to {color: rgb(224, 224, 224)}
+}
+
+.result{
+  width: 90%;
+  padding: 1%;
+  animation-delay: 2s;
+  animation-name: example;
+  animation-duration: 1.5s;
+  animation-timing-function: ease;
+}
+
