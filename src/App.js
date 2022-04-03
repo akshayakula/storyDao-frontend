@@ -5,10 +5,11 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 import Stack from 'react-bootstrap/Stack';
-import piper from './piper.png';
+import piper from './storyDao.png';
+import axios from 'axios';
 // import raw from './nyse.txt';
 // import TextField from '@mui/material/TextField';
-const API_URL = "http://localhost:5002/stockington-4ffbd/us-central1/sec"
+const API_URL = "http://96d9-71-167-234-173.ngrok.io/openai";
 
 const style = {
   position: 'absolute',
@@ -27,7 +28,7 @@ function App() {
   let [spinner, setSpinner] = useState(false);
   
   let [validation, setValidation] = useState(true);
-  let [report, setReport] = useState([]);
+  let [report, setReport] = useState("");
   let [notify, setNotify] = useState(false);
   let [number, setNumber] = useState("");
 
@@ -35,32 +36,47 @@ function App() {
   let [adj, setAdj] = useState("");
   let [verb, setVerb] = useState("");
   let [place, setPlace] = useState("");
-  let [event, setEvent] = useState("");
+  let [thingy, setThingy] = useState("");
 
+  let fetchAI = async (event) => {
+      event.preventDefault();
+    // const API_URL = "http://96d9-71-167-234-173.ngrok.io/openai";
+      const API_URL = "http://localhost:5003/openai";
 
-  let fetchAI = (event) => {
-    // event.preventDefault()
 
     let body = {
-      ticker
+      noun: noun,
+      adj: adj,
+      verb: verb,
+      place: place,
+      thingy: thingy
     }
 
-    let headers = {
-      "Content-Type": "text/plain"
+    // let headers ={
+    //   "Content-Type": "text/plain"
+    // }
 
-    }
-    console.log(ticker)
-    setSpinner(true)
-    .then(res =>{
-      console.log('hi');
-      console.log(res.data);
-      setReport(res.data.split("\n"));
-      setSpinner(false)
+    console.log(body)
+
+    axios.post(API_URL, body).then( async (r) => {
+      console.log(r.data)
+      
+      setReport(r.data);
+  
+      console.log("fetchAI called");
+      await axios.get("http://localhost:5004/init")
+  
+  
+      console.log("posting");
+      await axios.post("http://localhost:5004/write", body)
+  
+      await axios.get("http://localhost:5004/read", body)
     })
     .catch(err => {
-      console.log('bye')
       console.log(err)
     })
+
+
   } 
 
   let sendNum = () => {
@@ -86,20 +102,17 @@ function App() {
         <img src={piper} className="img-fluid logo" alt="image"></img>
         <br></br>
         <h1><text></text>Story <text style={{color: "#00FFC6"}}>DAO</text></h1>
-        <h4 className="text-light">Enter 5 words to get a <text style={{color: "#00FFC6"}}>fun story</text> with the help of the <text style={{color: "#00FFC6"}}>secret</text> network</h4>
+        <h4 className="text-light">Enter 5 words to get a <text style={{color: "#00FFC6"}}>fun story</text> with the help of the <text style={{color: "#00FFC6"}}>Hedara</text> network</h4>
         <br/>
           <Form.Group className="mb-3" className = "input float-left"  controlId="formStockTicker" >
             <Form.Control placeholder="NOUN" onChange={event => {setNoun(event.target.value)}}/><br/>
             <Form.Control placeholder="VERB" onChange={event => {setVerb(event.target.value)}}/><br/>
             <Form.Control placeholder="ADJECTIVE" onChange={event => {setAdj(event.target.value)}}/><br/>
-            <Form.Control placeholder="EVENT" onChange={event => {setEvent(event.target.value)}}/><br/>
+            <Form.Control placeholder="EVENT" onChange={event => {setThingy(event.target.value)}}/><br/>
             <Form.Control placeholder="PLACE" onChange={event => {setPlace(event.target.value)}}/>
           </Form.Group>
           <br></br>
           <div>
-            <Button disabled className="mb-3" size="lg" variant="outline-danger" className="mybutton float-right" type="submit" onClick={(event) => {fetchAI(event)} }>
-            Submit
-          </Button>
           
           </div>
           <div className='notify'><Button className="mb-3" size="lg" variant="outline-success" className="mybutton float-right" type="submit" onClick={(event) => {fetchAI(event)} }>
@@ -118,9 +131,10 @@ function App() {
           {spinner ? <Spinner className="loader" animation="grow" variant="light" /> : null }
           {spinner ? <Spinner className="loader" animation="grow" variant="light" /> : null }
         </Stack>
-        {report.map((value, index) => {
+        {/* {report.map((value, index) => {
               return <div className="result" key={index}>{value}</div>
-            })}
+            })} */}
+            {report}
       </header>
       
     </div>
