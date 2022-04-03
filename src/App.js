@@ -5,9 +5,8 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 import Stack from 'react-bootstrap/Stack';
-import bull from './Stockingtonlogo.png';
+import piper from './piper.png';
 // import raw from './nyse.txt';
-import stocks from 'stock-ticker-symbol';
 // import TextField from '@mui/material/TextField';
 const API_URL = "http://localhost:5002/stockington-4ffbd/us-central1/sec"
 
@@ -31,6 +30,12 @@ function App() {
   let [report, setReport] = useState([]);
   let [notify, setNotify] = useState(false);
   let [number, setNumber] = useState("");
+
+  let [noun, setNoun] = useState("");
+  let [adj, setAdj] = useState("");
+  let [verb, setVerb] = useState("");
+  let [place, setPlace] = useState("");
+  let [event, setEvent] = useState("");
 
 
   let fetchAI = (event) => {
@@ -78,32 +83,30 @@ function App() {
       <header className="App-header">
         <br></br>
         <br></br>
-        <img src={bull} className="img-fluid logo" alt="image"></img>
+        <img src={piper} className="img-fluid logo" alt="image"></img>
         <br></br>
-        <h1><text className='text-success'></text>Story <text className='text-warning'>DAO</text></h1>
-        <h4 className="text-light">Enter 5 words to get a <text className='text-success'>fun story</text> with the help of the <text className='text-success'>secret</text> network</h4>
+        <h1><text></text>Story <text style={{color: "#00FFC6"}}>DAO</text></h1>
+        <h4 className="text-light">Enter 5 words to get a <text style={{color: "#00FFC6"}}>fun story</text> with the help of the <text style={{color: "#00FFC6"}}>secret</text> network</h4>
         <br/>
           <Form.Group className="mb-3" className = "input float-left"  controlId="formStockTicker" >
-            <Form.Control placeholder="NOUN" onChange={event => {setTicker(event.target.value.toUpperCase());validateTicker(event.target.value.toUpperCase())}}/><br/>
-            <Form.Control placeholder="VERB" onChange={event => {setTicker(event.target.value.toUpperCase());validateTicker(event.target.value.toUpperCase())}}/><br/>
-            <Form.Control placeholder="ADJECTIVE" onChange={event => {setTicker(event.target.value.toUpperCase());validateTicker(event.target.value.toUpperCase())}}/><br/>
-            <Form.Control placeholder="EVENT" onChange={event => {setTicker(event.target.value.toUpperCase());validateTicker(event.target.value.toUpperCase())}}/><br/>
-            <Form.Control placeholder="PLACE" onChange={event => {setTicker(event.target.value.toUpperCase());validateTicker(event.target.value.toUpperCase())}}/>
-            {!validation ? <Form.Text className='text-danger'>Invalid ticker</Form.Text> : null }
-            
+            <Form.Control placeholder="NOUN" onChange={event => {setNoun(event.target.value)}}/><br/>
+            <Form.Control placeholder="VERB" onChange={event => {setVerb(event.target.value)}}/><br/>
+            <Form.Control placeholder="ADJECTIVE" onChange={event => {setAdj(event.target.value)}}/><br/>
+            <Form.Control placeholder="EVENT" onChange={event => {setEvent(event.target.value)}}/><br/>
+            <Form.Control placeholder="PLACE" onChange={event => {setPlace(event.target.value)}}/>
           </Form.Group>
           <br></br>
-          {!validation ? <div>
+          <div>
             <Button disabled className="mb-3" size="lg" variant="outline-danger" className="mybutton float-right" type="submit" onClick={(event) => {fetchAI(event)} }>
             Submit
           </Button>
           
-          </div>:
+          </div>
           <div className='notify'><Button className="mb-3" size="lg" variant="outline-success" className="mybutton float-right" type="submit" onClick={(event) => {fetchAI(event)} }>
               Submit
               </Button>
 
-          </div>}
+          </div>
           <br></br>
           {notify ?<Form.Group className="mb-3" className = "input float-left"  controlId="formStockTicker" ><Form.Control placeholder="Enter Your Phone Number Ex. +(123)-456-7893"/></Form.Group>: null}
 
